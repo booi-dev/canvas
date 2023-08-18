@@ -1,4 +1,8 @@
-console.log("gey");
-
 const canvas = document.querySelector("#canvas");
-console.log(canvas);
+
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+
+const ctx = canvas.getContext("2d");
+
+ctx.fillRect(100, 100, 100, 100);
