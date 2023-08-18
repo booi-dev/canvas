@@ -17,7 +17,15 @@ ctx.fillRect(100, 100, 100, 100);
 // Line
 
 ctx.beginPath();
-ctx.moveTo(100, 500);
-ctx.lineTo(250, 500);
+ctx.moveTo(100, 300);
+ctx.lineTo(250, 300);
+ctx.lineTo(250, 400);
 ctx.strokeStyle = "white";
 ctx.stroke();
+
+// Draw the circle
+ctx.beginPath();
+ctx.arc(200, 600, 60, 0, Math.PI * 2);
+ctx.fillStyle = "white";
+ctx.fill();
+ctx.closePath();
