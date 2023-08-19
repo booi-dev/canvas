@@ -18,12 +18,13 @@ function getRandomColor() {
 
   return color;
 }
-const circle = (x, y, r = 50) => {
-  let circleRadius = Math.random() * (10 + 40) + 10;
+const circle = (x, y, r = 30) => {
+  let circleRadius = Math.random() * (10 + 30) + 10;
 
-  let dx = (Math.random() - 0.5) * 10;
-  let dy = (Math.random() - 0.5) * 10;
+  let dx = (Math.random() - 0.5) * 5;
+  let dy = (Math.random() - 0.5) * 5;
 
+  const color = getRandomColor();
   const drawCircle = () => {
     if (x + circleRadius > window.innerWidth || x - circleRadius < 0) dx = -dx;
     if (y + circleRadius > window.innerHeight || y - circleRadius < 0) dy = -dy;
@@ -33,8 +34,8 @@ const circle = (x, y, r = 50) => {
 
     ctx.beginPath();
     ctx.arc(x, y, circleRadius, 0, Math.PI * 2, false);
-    ctx.fillStyle = "#D9C5B2";
-    ctx.fill();
+    ctx.strokeStyle = color;
+    ctx.stroke();
     ctx.closePath();
   };
 
@@ -44,7 +45,7 @@ const circle = (x, y, r = 50) => {
 const genRandX = () => Math.random() * window.innerWidth;
 const genRandY = () => Math.random() * window.innerHeight;
 
-const circles = Array.from({ length: 100 }, () => {
+const circles = Array.from({ length: 500 }, () => {
   const startX = genRandX();
   const startY = genRandY();
   return circle(startX, startY);
