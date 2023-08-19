@@ -37,9 +37,15 @@ ctx.fillStyle = "white";
 ctx.stroke();
 ctx.closePath();
 
+const randomInRange = (min, max) => Math.random() * (max - min) + min;
+
 for (let i = 0; i < 10; i++) {
+  const rand1 = randomInRange(100, 1000);
+  const rand2 = randomInRange(100, 1000);
+  const randRadius = randomInRange(20, 60);
+
   ctx.beginPath();
-  ctx.arc(200 + i * 100, 500, 30, 0, Math.PI * 2, false);
+  ctx.arc(rand1, rand2, randRadius, 0, Math.PI * 2, false);
   ctx.fillStyle = "white";
   ctx.stroke();
   ctx.closePath();
