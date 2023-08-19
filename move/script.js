@@ -18,22 +18,23 @@ function getRandomColor() {
 
   return color;
 }
-const circle = (x, y, r = 30) => {
-  let circleRadius = Math.random() * (10 + 30) + 10;
 
-  let dx = (Math.random() - 0.5) * 5;
-  let dy = (Math.random() - 0.5) * 5;
+const circle = (x, y) => {
+  let radius = Math.random() * (10 + 30) + 10;
+  let dx = (Math.random() - 0.5) * 2;
+  let dy = (Math.random() - 0.5) * 2;
 
   const color = getRandomColor();
+
   const drawCircle = () => {
-    if (x + circleRadius > window.innerWidth || x - circleRadius < 0) dx = -dx;
-    if (y + circleRadius > window.innerHeight || y - circleRadius < 0) dy = -dy;
+    if (x + radius > window.innerWidth || x - radius < 0) dx = -dx;
+    if (y + radius > window.innerHeight || y - radius < 0) dy = -dy;
 
     x += dx;
     y += dy;
 
     ctx.beginPath();
-    ctx.arc(x, y, circleRadius, 0, Math.PI * 2, false);
+    ctx.arc(x, y, radius, 0, Math.PI * 2, false);
     ctx.strokeStyle = color;
     ctx.stroke();
     ctx.closePath();
