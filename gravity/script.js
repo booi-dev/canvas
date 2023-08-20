@@ -19,12 +19,24 @@ const minSize = 5;
 const maxGrowSize = 60;
 const numOfCircles = 1;
 const growSpeed = 2;
-const colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
 
-const circle = (x, y, r, speed) => {
+const getRandomColor = () => {
+  // Generate random values for red, green, and blue channels
+  const r = Math.floor(Math.random() * 256); // 0 to 255
+  const g = Math.floor(Math.random() * 256); // 0 to 255
+  const b = Math.floor(Math.random() * 256); // 0 to 255
+
+  // Create a CSS color string in the format "rgb(r, g, b)"
+  const color = `rgb(${r}, ${g}, ${b})`;
+
+  return color;
+};
+
+const circle = (x, y, r, speed, acceleration) => {
   const radius = r;
   let dy = speed;
-  const color = colors[Math.floor(Math.random() * colors.length)];
+  const a = acceleration;
+  const color = getRandomColor();
 
   const drawCircle = () => {
     ctx.beginPath();
@@ -37,7 +49,11 @@ const circle = (x, y, r, speed) => {
   const updateCircle = () => {
     if (y + radius > canvas.height || y - radius < 0) {
       dy = -dy;
+    } else {
+      // adding acceleration
+      dy += a;
     }
+
     y += dy;
     drawCircle();
   };
@@ -49,7 +65,7 @@ const init = () => {
   const startX = window.innerWidth / 2;
   const startY = window.innerHeight / 2;
 
-  const drawCircle = circle(startX, startY, 60, 5);
+  const drawCircle = circle(startX, startY, 60, 5, 1);
 
   const animate = () => {
     requestAnimationFrame(animate);
