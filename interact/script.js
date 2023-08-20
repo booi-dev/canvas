@@ -27,16 +27,17 @@ window.addEventListener("mousemove", (e) => {
 });
 
 const minSize = 5;
-const maxGrowSize = 80;
-const numOfCircles = 1000;
+const maxGrowSize = 60;
+const numOfCircles = 2000;
 const growSpeed = 2;
+const colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
 
 const circle = (x, y) => {
   let radius = Math.random() * (10 + 30) + 10;
   let dx = (Math.random() - 0.5) * 2;
   let dy = (Math.random() - 0.5) * 2;
 
-  const color = getRandomColor();
+  const color = colors[Math.floor(Math.random() * colors.length)];
 
   const drawCircle = () => {
     // updating
