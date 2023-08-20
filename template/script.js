@@ -22,7 +22,7 @@ const growSpeed = 2;
 const colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
 
 const circle = (x, y) => {
-  let radius = Math.random() * (20 + 200) + 2;
+  let radius = Math.random() * (20 + 100) + 2;
 
   const color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -35,19 +35,27 @@ const circle = (x, y) => {
     ctx.closePath();
   };
 
-  return drawCircle;
+  const updateCircle = () => {
+    drawCircle();
+  };
+
+  return updateCircle;
 };
 
 const init = () => {
-  const genRandX = () => Math.random() * window.innerWidth;
-  const genRandY = () => Math.random() * window.innerHeight;
-
-  const startX = 200;
-  const startY = genRandY();
+  const startX = window.innerWidth / 2;
+  const startY = window.innerHeight / 2;
 
   const drawCircle = circle(startX, startY);
 
-  drawCircle();
+  const animate = () => {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+    drawCircle();
+  };
+
+  animate();
 };
 
 init();
