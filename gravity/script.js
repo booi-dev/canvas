@@ -15,10 +15,8 @@ window.addEventListener("resize", () => {
   canvas.height = window.innerHeight;
 });
 
-const minSize = 5;
-const maxGrowSize = 60;
-const numOfCircles = 1;
-const growSpeed = 2;
+const acceleration = 1;
+const friction = 0.5;
 
 const getRandomColor = () => {
   // Generate random values for red, green, and blue channels
@@ -32,10 +30,9 @@ const getRandomColor = () => {
   return color;
 };
 
-const circle = (x, y, r, speed, acceleration) => {
+const circle = (x, y, r, speed, a) => {
   const radius = r;
   let dy = speed;
-  const a = acceleration;
   const color = getRandomColor();
 
   const drawCircle = () => {
@@ -48,10 +45,9 @@ const circle = (x, y, r, speed, acceleration) => {
 
   const updateCircle = () => {
     if (y + radius > canvas.height || y - radius < 0) {
-      dy = -dy;
+      dy = -dy * friction;
     } else {
-      // adding acceleration
-      dy += a;
+      dy += acceleration;
     }
 
     y += dy;
@@ -65,7 +61,7 @@ const init = () => {
   const startX = window.innerWidth / 2;
   const startY = window.innerHeight / 2;
 
-  const drawCircle = circle(startX, startY, 60, 5, 1);
+  const drawCircle = circle(startX, startY, 60, 5, 0.2);
 
   const animate = () => {
     requestAnimationFrame(animate);
