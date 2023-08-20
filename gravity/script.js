@@ -3,8 +3,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 const ctx = canvas.getContext("2d");
 
-const acceleration = 0.2;
-const friction = 0.2;
+const acceleration = 0.5;
+const friction = 0.9;
 
 const getRandomColor = () => {
   // Generate random values for red, green, and blue channels
@@ -22,7 +22,7 @@ const getRandomRange = (min, max) => Math.random() * (max - min) + min;
 
 const circle = (x, y, r) => {
   const radius = r;
-  let dy = getRandomRange(1 / 10000000000, 1 / 10000000000);
+  let dy = getRandomRange(2, 3);
   let dx = getRandomRange(-2, 2);
   const color = getRandomColor();
 
@@ -38,10 +38,12 @@ const circle = (x, y, r) => {
     if (x + radius + dx > canvas.width || x - radius + dx < 0) dx = -dx;
 
     if (y + radius + dy > canvas.height || y - radius + dy < 0) {
-      dy = -dy;
+      dy = -dy * friction;
     } else {
       dy += acceleration;
     }
+
+    if (y + radius > canvas.height - radius) dx = 0;
 
     x += dx;
     y += dy;
