@@ -19,6 +19,11 @@ function getRandomColor() {
   return color;
 }
 
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
 let mouse = {};
 
 window.addEventListener("mousemove", (e) => {
