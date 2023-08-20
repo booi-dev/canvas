@@ -3,20 +3,8 @@ canvas.width = window.innerWidth;
 canvas.height = window.innerHeight;
 const ctx = canvas.getContext("2d");
 
-let mouse = {};
-
-window.addEventListener("mousemove", (e) => {
-  mouse.x = e.x;
-  mouse.y = e.y;
-});
-
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-
-const acceleration = 1;
-const friction = 0.999;
+const acceleration = 0.2;
+const friction = 0.2;
 
 const getRandomColor = () => {
   // Generate random values for red, green, and blue channels
@@ -30,12 +18,12 @@ const getRandomColor = () => {
   return color;
 };
 
-const gerRandomRange = (min, max) => Math.random() * (max - min) + min;
+const getRandomRange = (min, max) => Math.random() * (max - min) + min;
 
 const circle = (x, y, r) => {
   const radius = r;
-  let dy = gerRandomRange(2, 3);
-  let dx = gerRandomRange(-5, 5);
+  let dy = getRandomRange(1 / 10000000000, 1 / 10000000000);
+  let dx = getRandomRange(-2, 2);
   const color = getRandomColor();
 
   const drawCircle = () => {
@@ -50,7 +38,7 @@ const circle = (x, y, r) => {
     if (x + radius + dx > canvas.width || x - radius + dx < 0) dx = -dx;
 
     if (y + radius + dy > canvas.height || y - radius + dy < 0) {
-      dy = -dy * friction;
+      dy = -dy;
     } else {
       dy += acceleration;
     }
@@ -65,9 +53,9 @@ const circle = (x, y, r) => {
 
 const init = () => {
   const circles = Array.from({ length: 100 }, () => {
-    const radius = gerRandomRange(10, 30);
-    const startX = gerRandomRange(radius, canvas.width - radius);
-    const startY = gerRandomRange(radius, canvas.height - radius);
+    const radius = getRandomRange(10, 30);
+    const startX = getRandomRange(radius, canvas.width - radius);
+    const startY = getRandomRange(radius, canvas.height - radius);
     return circle(startX, startY, radius);
   });
 
@@ -84,3 +72,12 @@ const init = () => {
 };
 
 init();
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+});
+
+window.addEventListener("click", () => {
+  init();
+});
