@@ -41,15 +41,17 @@ const circle = (x, y, r) => {
 const init = () => {
   const radius = 60;
   const startX = canvas.width / 2;
-  const startY = canvas.height / 2;
+  const startY = canvas.height - radius;
 
-  const drawCircle = circle(startX, startY, radius);
+  const drawCircle1 = circle(radius, startY, radius);
+  const drawCircle2 = circle(canvas.width - radius, startY, radius);
 
   const animate = () => {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-    drawCircle();
+    drawCircle1();
+    drawCircle2();
   };
 
   animate();
