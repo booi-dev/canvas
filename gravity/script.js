@@ -16,7 +16,7 @@ window.addEventListener("resize", () => {
 });
 
 const acceleration = 1;
-const friction = 0.99;
+const friction = 0.999;
 
 const getRandomColor = () => {
   // Generate random values for red, green, and blue channels
@@ -34,7 +34,8 @@ const gerRandomRange = (min, max) => Math.random() * (max - min) + min;
 
 const circle = (x, y, r) => {
   const radius = r;
-  let dy = Math.random() * (2 + 3) + 2;
+  let dy = gerRandomRange(2, 3);
+  let dx = gerRandomRange(-5, 5);
   const color = getRandomColor();
 
   const drawCircle = () => {
@@ -46,12 +47,15 @@ const circle = (x, y, r) => {
   };
 
   const updateCircle = () => {
+    if (x + radius + dx > canvas.width || x - radius + dx < 0) dx = -dx;
+
     if (y + radius + dy > canvas.height || y - radius + dy < 0) {
       dy = -dy * friction;
     } else {
       dy += acceleration;
     }
 
+    x += dx;
     y += dy;
     drawCircle();
   };
@@ -60,10 +64,10 @@ const circle = (x, y, r) => {
 };
 
 const init = () => {
-  const circles = Array.from({ length: 550 }, () => {
-    const radius = gerRandomRange(2, 5);
-    const startX = gerRandomRange(0, canvas.width - radius);
-    const startY = gerRandomRange(0, canvas.height - radius);
+  const circles = Array.from({ length: 100 }, () => {
+    const radius = gerRandomRange(10, 30);
+    const startX = gerRandomRange(radius, canvas.width - radius);
+    const startY = gerRandomRange(radius, canvas.height - radius);
     return circle(startX, startY, radius);
   });
 
