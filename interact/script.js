@@ -33,9 +33,10 @@ const growSpeed = 2;
 const colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
 
 const circle = (x, y) => {
-  let radius = Math.random() * (10 + 30) + 10;
   let dx = (Math.random() - 0.5) * 2;
   let dy = (Math.random() - 0.5) * 2;
+  let radius = Math.random() * (2 + 3) + 2;
+  const originalRadius = radius;
 
   const color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -48,7 +49,6 @@ const circle = (x, y) => {
     y += dy;
 
     // interact
-    const originalRadius = radius;
     if (
       mouse.x - x < 50 &&
       mouse.x - x > -50 &&
@@ -56,7 +56,7 @@ const circle = (x, y) => {
       mouse.y - y > -50
     ) {
       if (radius < maxGrowSize) radius += growSpeed;
-    } else if (radius > minSize) {
+    } else if (radius > originalRadius) {
       radius -= growSpeed;
     }
 
