@@ -19,6 +19,18 @@ function getRandomColor() {
   return color;
 }
 
+let mouse = {};
+
+window.addEventListener("mousemove", (e) => {
+  mouse.x = e.x;
+  mouse.y = e.y;
+});
+
+const minSize = 5;
+const maxGrowSize = 80;
+const numOfCircles = 1000;
+const growSpeed = 2;
+
 const circle = (x, y) => {
   let radius = Math.random() * (10 + 30) + 10;
   let dx = (Math.random() - 0.5) * 2;
@@ -27,16 +39,31 @@ const circle = (x, y) => {
   const color = getRandomColor();
 
   const drawCircle = () => {
+    // updating
     if (x + radius > window.innerWidth || x - radius < 0) dx = -dx;
     if (y + radius > window.innerHeight || y - radius < 0) dy = -dy;
 
     x += dx;
     y += dy;
 
+    // interact
+    const originalRadius = radius;
+    if (
+      mouse.x - x < 50 &&
+      mouse.x - x > -50 &&
+      mouse.y - y < 50 &&
+      mouse.y - y > -50
+    ) {
+      if (radius < maxGrowSize) radius += growSpeed;
+    } else if (radius > minSize) {
+      radius -= growSpeed;
+    }
+
+    // actual drawing
     ctx.beginPath();
     ctx.arc(x, y, radius, 0, Math.PI * 2, false);
-    ctx.strokeStyle = color;
-    ctx.stroke();
+    ctx.fillStyle = color;
+    ctx.fill();
     ctx.closePath();
   };
 
@@ -45,8 +72,6 @@ const circle = (x, y) => {
 
 const genRandX = () => Math.random() * window.innerWidth;
 const genRandY = () => Math.random() * window.innerHeight;
-
-const numOfCircles = 500;
 
 const circles = Array.from({ length: numOfCircles }, () => {
   const startX = genRandX();
