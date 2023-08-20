@@ -19,11 +19,6 @@ function getRandomColor() {
   return color;
 }
 
-window.addEventListener("resize", () => {
-  canvas.width = window.innerWidth;
-  canvas.height = window.innerHeight;
-});
-
 let mouse = {};
 
 window.addEventListener("mousemove", (e) => {
@@ -33,7 +28,7 @@ window.addEventListener("mousemove", (e) => {
 
 const minSize = 5;
 const maxGrowSize = 60;
-const numOfCircles = 2000;
+const numOfCircles = 500;
 const growSpeed = 2;
 const colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
 
@@ -76,22 +71,33 @@ const circle = (x, y) => {
   return drawCircle;
 };
 
-const genRandX = () => Math.random() * window.innerWidth;
-const genRandY = () => Math.random() * window.innerHeight;
+const init = () => {
+  const genRandX = () => Math.random() * window.innerWidth;
+  const genRandY = () => Math.random() * window.innerHeight;
 
-const circles = Array.from({ length: numOfCircles }, () => {
-  const startX = genRandX();
-  const startY = genRandY();
-  return circle(startX, startY);
-});
-
-const animate = () => {
-  requestAnimationFrame(animate);
-  ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
-
-  circles.forEach((drawCircle) => {
-    drawCircle();
+  const circles = Array.from({ length: numOfCircles }, () => {
+    const startX = genRandX();
+    const startY = genRandY();
+    return circle(startX, startY);
   });
+
+  const animate = () => {
+    requestAnimationFrame(animate);
+    ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
+
+    circles.forEach((drawCircle) => {
+      drawCircle();
+    });
+  };
+
+  animate();
 };
 
-animate();
+init();
+
+window.addEventListener("resize", () => {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+
+  init();
+});
