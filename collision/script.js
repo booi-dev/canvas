@@ -15,10 +15,18 @@ window.addEventListener("resize", () => {
   canvas.height = window.innerHeight;
 });
 
+const getDistance = (x1, y1, x2, y2) => {
+  let xDistance = x2 - x1;
+  let yDistance = y2 - y1;
+
+  return Math.sqrt(xDistance ** 2 + yDistance ** 2);
+};
+
 const colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
 
-const circle = (x, y, r) => {
+const circle = (x, y, r, direction) => {
   let radius = r;
+  let dx = direction;
 
   const color = colors[Math.floor(Math.random() * colors.length)];
 
@@ -32,6 +40,9 @@ const circle = (x, y, r) => {
   };
 
   const updateCircle = () => {
+    if (x + radius > canvas.width || x - radius < 0) dx = -dx;
+
+    x += dx;
     drawCircle();
   };
 
@@ -40,11 +51,11 @@ const circle = (x, y, r) => {
 
 const init = () => {
   const radius = 60;
-  const startX = canvas.width / 2;
+  // const startX = canvas.width / 2;
   const startY = canvas.height - radius;
 
-  const drawCircle1 = circle(radius, startY, radius);
-  const drawCircle2 = circle(canvas.width - radius, startY, radius);
+  const drawCircle1 = circle(radius, startY, radius, 5);
+  const drawCircle2 = circle(canvas.width - radius, startY, radius, -5);
 
   const animate = () => {
     requestAnimationFrame(animate);
