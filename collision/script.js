@@ -24,45 +24,83 @@ const getDistance = (x1, y1, x2, y2) => {
 
 const colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
 
-const circle = (x, y, r, direction) => {
-  let radius = r;
-  let dx = direction;
+// const circle = (startX, startY, r, direction) => {
+//   let x = startX;
+//   let y = startY;
+//   let radius = r;
+//   let dx = direction;
 
-  const color = colors[Math.floor(Math.random() * colors.length)];
+//   const color = colors[Math.floor(Math.random() * colors.length)];
 
-  const drawCircle = () => {
+//   const drawCircle = () => {
+//     // actual drawing
+//     ctx.beginPath();
+//     ctx.arc(x, y, radius, 0, Math.PI * 2, false);
+//     ctx.fillStyle = color;
+//     ctx.fill();
+//     ctx.closePath();
+//   };
+
+//   const update = () => {
+//     if (x + radius > canvas.width || x - radius < 0) dx = -dx;
+
+//     x += dx;
+//     drawCircle();
+//   };
+
+//   return { x, y, draw: update };
+// };
+
+class Circle {
+  constructor(startX, startY, r, direction) {
+    this.x = startX;
+    this.y = startY;
+    this.radius = r;
+    this.dx = direction;
+    this.color = colors[Math.floor(Math.random() * colors.length)];
+  }
+
+  draw(ctx) {
     // actual drawing
     ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2, false);
-    ctx.fillStyle = color;
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    ctx.fillStyle = this.color;
     ctx.fill();
     ctx.closePath();
-  };
+  }
 
-  const updateCircle = () => {
-    if (x + radius > canvas.width || x - radius < 0) dx = -dx;
+  update(canvas) {
+    if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+      this.dx = -this.dx;
+    }
 
-    x += dx;
-    drawCircle();
-  };
-
-  return updateCircle;
-};
+    this.x += this.dx;
+  }
+}
 
 const init = () => {
   const radius = 60;
   // const startX = canvas.width / 2;
-  const startY = canvas.height - radius;
+  const startX1 = radius;
+  const startY1 = canvas.height - radius;
 
-  const drawCircle1 = circle(radius, startY, radius, 5);
-  const drawCircle2 = circle(canvas.width - radius, startY, radius, -5);
+  const startX2 = canvas.width - radius;
+  const startY2 = canvas.height - radius;
+
+  const circle1 = new Circle(startX1, startY1, radius, 5);
+  const circle2 = new Circle(startX2, startY2, radius, -5);
 
   const animate = () => {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-    drawCircle1();
-    drawCircle2();
+    circle1.update(canvas);
+    circle1.draw(ctx);
+
+    circle2.update(canvas);
+    circle2.draw(ctx);
+
+    console.log(circle1.x, circle2.x);
   };
 
   animate();
