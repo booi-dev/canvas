@@ -100,7 +100,12 @@ const init = () => {
     circle2.update(canvas);
     circle2.draw(ctx);
 
-    console.log(circle1.x, circle2.x);
+    const distance = getDistance(circle1.x, circle1.y, circle2.x, circle2.y);
+
+    if (distance < circle1.radius + circle2.radius) {
+      circle1.dx = -circle1.dx;
+      circle2.dx = -circle2.dx;
+    }
   };
 
   animate();
