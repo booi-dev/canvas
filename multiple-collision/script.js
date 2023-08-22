@@ -22,12 +22,13 @@ class Circle {
   constructor(startX, startY, r) {
     this.x = startX;
     this.y = startY;
+    this.dx = getRandomRange(-2, 2);
+    this.dy = getRandomRange(-2, 2);
     this.radius = r;
-    this.colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
-    this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
+    this.color = colors[Math.floor(Math.random() * colors.length)];
   }
 
-  draw(ctx) {
+  draw() {
     // actual drawing
     ctx.beginPath();
     ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
@@ -37,11 +38,14 @@ class Circle {
   }
 
   update(canvas) {
-    if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+    this.draw();
+    if (this.x + this.radius > canvas.width || this.x - this.radius < 0)
       this.dx = -this.dx;
-    }
+    if (this.y + this.radius > canvas.height || this.y - this.radius < 0)
+      this.dy = -this.dy;
 
     this.x += this.dx;
+    this.y += this.dy;
   }
 }
 
@@ -49,9 +53,9 @@ const numOfCircles = 100;
 
 const init = () => {
   const circles = Array.from({ length: numOfCircles }, () => {
-    const startX = Math.random() * window.innerWidth;
-    const startY = Math.random() * window.innerHeight;
     const radius = getRandomRange(20, 40);
+    const startX = getRandomRange(radius, canvas.width - radius);
+    const startY = getRandomRange(radius, canvas.height - radius);
     return new Circle(startX, startY, radius);
   });
 
@@ -60,7 +64,7 @@ const init = () => {
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
     circles.forEach((circle) => {
-      circle.draw(ctx);
+      circle.update(canvas);
     });
   };
 
