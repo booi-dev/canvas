@@ -102,7 +102,7 @@ const init = () => {
 
     const distance = getDistance(circle1.x, circle1.y, circle2.x, circle2.y);
 
-    if (distance < circle1.radius + circle2.radius) {
+    if (distance < circle1.radius + circle2.ra) {
       circle1.dx = -circle1.dx;
       circle2.dx = -circle2.dx;
     }
