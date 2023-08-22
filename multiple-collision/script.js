@@ -15,13 +15,14 @@ window.addEventListener("resize", () => {
   canvas.height = window.innerHeight;
 });
 
+const getRandomRange = (min, max) => Math.random() * (max - min) + min;
+
 const colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
 class Circle {
-  constructor(startX, startY, r, direction) {
+  constructor(startX, startY, r) {
     this.x = startX;
     this.y = startY;
     this.radius = r;
-    this.dx = direction;
     this.colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
     this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
   }
@@ -44,18 +45,23 @@ class Circle {
   }
 }
 
-const init = () => {
-  const radius = 60;
-  const startX = canvas.width / 2;
-  const startY = canvas.height / 2;
+const numOfCircles = 100;
 
-  const drawCircle = circle(startX, startY, radius);
+const init = () => {
+  const circles = Array.from({ length: numOfCircles }, () => {
+    const startX = Math.random() * window.innerWidth;
+    const startY = Math.random() * window.innerHeight;
+    const radius = getRandomRange(20, 40);
+    return new Circle(startX, startY, radius);
+  });
 
   const animate = () => {
     requestAnimationFrame(animate);
     ctx.clearRect(0, 0, window.innerWidth, window.innerHeight);
 
-    drawCircle();
+    circles.forEach((circle) => {
+      circle.draw(ctx);
+    });
   };
 
   animate();

@@ -17,6 +17,8 @@ window.addEventListener("resize", () => {
 
 const colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
 
+const getRandomRange = (min, max) => Math.random() * (max - min) + min;
+
 const circle = (x, y, r) => {
   let radius = r;
 
