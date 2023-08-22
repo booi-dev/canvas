@@ -16,27 +16,33 @@ window.addEventListener("resize", () => {
 });
 
 const colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
+class Circle {
+  constructor(startX, startY, r, direction) {
+    this.x = startX;
+    this.y = startY;
+    this.radius = r;
+    this.dx = direction;
+    this.colors = ["#227c9d", "#17c3b2", "#ffcb77", "#fef9ef", "#fe6d73"];
+    this.color = this.colors[Math.floor(Math.random() * this.colors.length)];
+  }
 
-const circle = (x, y, r) => {
-  let radius = r;
-
-  const color = colors[Math.floor(Math.random() * colors.length)];
-
-  const drawCircle = () => {
+  draw(ctx) {
     // actual drawing
     ctx.beginPath();
-    ctx.arc(x, y, radius, 0, Math.PI * 2, false);
-    ctx.fillStyle = color;
+    ctx.arc(this.x, this.y, this.radius, 0, Math.PI * 2, false);
+    ctx.fillStyle = this.color;
     ctx.fill();
     ctx.closePath();
-  };
+  }
 
-  const updateCircle = () => {
-    drawCircle();
-  };
+  update(canvas) {
+    if (this.x + this.radius > canvas.width || this.x - this.radius < 0) {
+      this.dx = -this.dx;
+    }
 
-  return updateCircle;
-};
+    this.x += this.dx;
+  }
+}
 
 const init = () => {
   const radius = 60;
